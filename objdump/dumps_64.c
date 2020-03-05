@@ -75,8 +75,11 @@ void dump_sections_64(char *filename, Elf64_Ehdr *elf,
     while (counter < elf->e_shnum - 1) {
         if (strcmp(&strtab[shdr[counter].sh_name], ".bss") == 0
             || strcmp(&strtab[shdr[counter].sh_name], ".strtab") == 0
+            || strcmp(&strtab[shdr[counter].sh_name], ".shstrtab") == 0
+            || strcmp(&strtab[shdr[counter].sh_name], ".symtab") == 0
             || shdr[counter].sh_type == SHT_NOBITS
-            || shdr[counter].sh_type == SHT_SYMTAB) {
+            || shdr[counter].sh_type == SHT_SYMTAB
+            || shdr[counter].sh_size <= 0) {
             counter++;
             continue;
         }

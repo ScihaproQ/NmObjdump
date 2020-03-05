@@ -5,6 +5,10 @@ CC	= gcc
 RM	= rm -f
 
 SRCS	= ./main.c \
+        ./dumps.c \
+        ./prints.c \
+        ./read_at_position.c \
+        ./machines.c \
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -15,12 +19,13 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	 $(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
+	 mv ./$(NAME) ../
 
 clean:
 	$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) ../$(NAME)
 
 re: fclean all
 

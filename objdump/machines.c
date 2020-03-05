@@ -25,15 +25,15 @@ char *machine_name_32(Elf32_Ehdr *elf)
                                      {EM_SPARCV9,"Sparc v9"},
                                      {EM_IA_64,"Intel IA-64"},
                                      {EM_X86_64,"i386:x86-64"}};
-    for (int i = 0; i < 17; ++i)
-        if (machines[i].key == elf->e_machine)
-            return machines[i].str;
+//    for (int i = 0; i < 17; ++i)
+//        if (machines[i].key == elf->e_machine)
+//            return machines[i].str;
     return "i386";
 }
 
 char *machine_name_64(Elf64_Ehdr *elf)
 {
-    static map_t const machines[] = {{EM_NONE,"None"}, {EM_M32,"WE32100"},
+    map_t const machines[] = {{EM_NONE,"None"}, {EM_M32,"WE32100"},
                                          {EM_SPARC,"Sparc"}, {EM_ARM,"ARM"},
                                          {EM_386,"Intel 80386"},
                                          {EM_68K,"MC68000"},
@@ -49,8 +49,8 @@ char *machine_name_64(Elf64_Ehdr *elf)
                                          {EM_SPARCV9,"Sparc v9"},
                                          {EM_IA_64,"Intel IA-64"},
                                          {EM_X86_64,"i386:x86-64"}};
-    for (int i = 0; i < 17; ++i)
-        if (machines[i].key == elf->e_machine)
-            return machines[i].str;
+//    for (int i = 0; i < 17; ++i)
+//        if (machines[i].key == elf->e_machine)
+//            return machines[i].str;
     return "i386:x86-64";
 }

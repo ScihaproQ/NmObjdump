@@ -14,20 +14,10 @@
 
 #include "objdump.h"
 
-void dump_header_32(char *filename, Elf32_Ehdr *elf, Elf32_Shdr *shdr)
+void dump_header_32(char *filename, Elf32_Ehdr *elf,long flags)
 {
     char buf[150];
-    long flags = 0;
 
-    flags = 0x01 * (elf->e_type == ET_REL
-            && (shdr->sh_type == SHT_RELA
-            || shdr->sh_type == SHT_REL))
-                    | 0x02 * (elf->e_type == ET_EXEC)
-                    | 0x10 * (shdr->sh_type == SHT_SYMTAB
-                    || shdr->sh_type == SHT_DYNSYM)
-                    |  0x40 * (elf->e_type == ET_DYN)
-                    | 0x100 * ((elf->e_type == ET_EXEC
-                    || elf->e_type == ET_DYN));
     memset(buf, 0, 150);
     printf("\n%s:     file format elf32-i386\n", filename);
     printf("architecture: %s, flags 0x%08lx:\n", machine_name_32(elf), flags);
@@ -36,7 +26,7 @@ void dump_header_32(char *filename, Elf32_Ehdr *elf, Elf32_Shdr *shdr)
 }
 
 void dump_sections_32(char *filename, Elf32_Ehdr *elf,
-                      Elf32_Shdr *shdr, char *strtab)
+        Elf32_Shdr *shdr, char *strtab)
 {
     int counter = 1;
 
@@ -55,18 +45,41 @@ void dump_sections_32(char *filename, Elf32_Ehdr *elf,
     }
 }
 
+long get_flag_32(Elf32_Ehdr *elf)
+{
+    long flags = 0;
+    long flag = 0;
+    int counter = 0;
+    Elf32_Shdr *te = NULL;
+
+    while (counter < elf->e_shnum - 1) {
+        te = &(((Elf32_Shdr *)((char *)elf + elf->e_shoff))[counter + 1]);
+        flags = 0x01 * (elf->e_type == ET_REL && (te->sh_type == SHT_RELA
+                || te->sh_type == SHT_REL))| 0x02 * (elf->e_type == ET_EXEC)
+                | 0x10 * (te->sh_type == SHT_SYMTAB || te->sh_type == SHT_DYNSYM)
+                | 0x40 * (elf->e_type == ET_DYN) | 0x100 * ((elf->e_type == ET_EXEC
+                || elf->e_type == ET_DYN));
+        if (flags > flag)
+            flag = flags;
+        counter++;
+    }
+    return flag;
+}
+
 int dump_32(char *filename, void *data)
 {
     char *strtab = NULL;
     Elf32_Ehdr *elf;
     Elf32_Shdr *shdr;
+    long flags = 0;
 
     if (data == MAP_FAILED)
         return 84;
     elf = (Elf32_Ehdr *) data;
     shdr = (Elf32_Shdr *) (data + elf->e_shoff);
     strtab = (char *) (data + shdr[elf->e_shstrndx].sh_offset);
-    dump_header_32(filename, elf, shdr);
+    flags = get_flag_32(elf);
+    dump_header_32(filename, elf, flags);
     dump_sections_32(filename, elf, shdr, strtab);
     return (0);
 }

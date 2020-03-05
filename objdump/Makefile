@@ -5,7 +5,8 @@ CC	= gcc
 RM	= rm -f
 
 SRCS	= ./main.c \
-        ./dumps.c \
+        ./dumps_32.c \
+        ./dumps_64.c \
         ./prints.c \
         ./read_at_position.c \
         ./machines.c \

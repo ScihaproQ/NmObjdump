@@ -23,7 +23,7 @@ void dump_flags(unsigned long flags)
     };
 }
 
-void dump_header(char *filename, Elf64_Ehdr *elf, Elf64_Shdr *shdr)
+void dump_header_64(char *filename, Elf64_Ehdr *elf, Elf64_Shdr *shdr)
 {
     char buf[150];
     unsigned long a = 0;
@@ -39,12 +39,12 @@ void dump_header(char *filename, Elf64_Ehdr *elf, Elf64_Shdr *shdr)
                     || elf->e_type == ET_DYN));
     memset(buf, 0, 150);
     printf("\n%s:     file format elf64-x86-64\n", filename);
-    printf("architecture: %s, flags 0x%08lx:\n", machine_name(elf), flags);
+    printf("architecture: %s, flags 0x%08lx:\n", machine_name_64(elf), flags);
     dump_flags(flags);
     printf("start address 0x%016lx\n\n", elf->e_entry);
 }
 
-void dump_sections(char *filename, Elf64_Ehdr *elf,
+void dump_sections_64(char *filename, Elf64_Ehdr *elf,
         Elf64_Shdr *shdr, char *strtab)
 {
     int counter = 1;
@@ -64,7 +64,7 @@ void dump_sections(char *filename, Elf64_Ehdr *elf,
     }
 }
 
-int dump(char *filename, void *data)
+int dump_64(char *filename, void *data)
 {
     char *strtab = NULL;
     Elf64_Ehdr *elf;
@@ -75,7 +75,7 @@ int dump(char *filename, void *data)
     elf = (Elf64_Ehdr *) data;
     shdr = (Elf64_Shdr *) (data + elf->e_shoff);
     strtab = (char *) (data + shdr[elf->e_shstrndx].sh_offset);
-    dump_header(filename, elf, shdr);
-    dump_sections(filename, elf, shdr, strtab);
+    dump_header_64(filename, elf, shdr);
+    dump_sections_64(filename, elf, shdr, strtab);
     return (0);
 }

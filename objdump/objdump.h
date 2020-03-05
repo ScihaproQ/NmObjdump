@@ -15,6 +15,7 @@
 #include <zconf.h>
 #include <sys/mman.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define BFD_NO_FLAGS    0x00
 #define HAS_RELOC       0x01
@@ -32,12 +33,18 @@ typedef struct {
     char *str;
 } map_t;
 
-int dump(char *filename, void *data);
+void dump_flags(unsigned long flags);
+
+int dump_32(char *filename, void *data);
+
+int dump_64(char *filename, void *data);
 
 void print_bytes(unsigned long position, FILE *fp,
         unsigned long size, int *i);
 
-char *machine_name(Elf64_Ehdr *elf);
+char *machine_name_32(Elf32_Ehdr *elf);
+
+char *machine_name_64(Elf64_Ehdr *elf);
 
 void read_at_position(unsigned long address, unsigned long position,
         unsigned long size, char *file);

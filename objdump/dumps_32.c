@@ -1,20 +1,13 @@
 /*
 ** EPITECH PROJECT, 2020
-** 
-** File description:
-** TODO: Add description
-*/
-
-/*
-** EPITECH PROJECT, 2020
-** 
+**
 ** File description:
 ** TODO: Add description
 */
 
 #include "objdump.h"
 
-void dump_header_32(char *filename, Elf32_Ehdr *elf,long flags)
+void dump_header_32(char *filename, Elf32_Ehdr *elf, long flags)
 {
     char buf[150];
 
@@ -43,7 +36,7 @@ void dump_sections_32(char *filename, Elf32_Ehdr *elf,
         }
         printf("Contents of section %s:\n", &strtab[shdr[counter].sh_name]);
         read_at_position(shdr[counter].sh_addr, shdr[counter].sh_offset,
-                         shdr[counter].sh_size, filename);
+                shdr[counter].sh_size, filename);
         counter++;
     }
 }
@@ -58,9 +51,11 @@ long get_flag_32(Elf32_Ehdr *elf)
     while (counter < elf->e_shnum - 1) {
         te = &(((Elf32_Shdr *)((char *)elf + elf->e_shoff))[counter + 1]);
         flags = 0x01 * (elf->e_type == ET_REL && (te->sh_type == SHT_RELA
-                || te->sh_type == SHT_REL))| 0x02 * (elf->e_type == ET_EXEC)
-                | 0x10 * (te->sh_type == SHT_SYMTAB || te->sh_type == SHT_DYNSYM)
-                | 0x40 * (elf->e_type == ET_DYN) | 0x100 * ((elf->e_type == ET_EXEC
+                || te->sh_type == SHT_REL)) | 0x02 * (elf->e_type == ET_EXEC)
+                | 0x10 * (te->sh_type == SHT_SYMTAB
+                || te->sh_type == SHT_DYNSYM)
+                | 0x40 * (elf->e_type == ET_DYN)
+                | 0x100 * ((elf->e_type == ET_EXEC
                 || elf->e_type == ET_DYN));
         if (flags > flag)
             flag = flags;

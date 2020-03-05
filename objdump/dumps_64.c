@@ -56,9 +56,11 @@ long get_flag_64(Elf64_Ehdr *elf)
     while (counter < elf->e_shnum - 1) {
         te = &(((Elf64_Shdr *)((char *)elf + elf->e_shoff))[counter + 1]);
         flags = 0x01 * (elf->e_type == ET_REL && (te->sh_type == SHT_RELA
-                || te->sh_type == SHT_REL))| 0x02 * (elf->e_type == ET_EXEC)
-                | 0x10 * (te->sh_type == SHT_SYMTAB || te->sh_type == SHT_DYNSYM)
-                | 0x40 * (elf->e_type == ET_DYN) | 0x100 * ((elf->e_type == ET_EXEC
+                || te->sh_type == SHT_REL)) | 0x02 * (elf->e_type == ET_EXEC)
+                | 0x10 * (te->sh_type == SHT_SYMTAB
+                || te->sh_type == SHT_DYNSYM)
+                | 0x40 * (elf->e_type == ET_DYN)
+                | 0x100 * ((elf->e_type == ET_EXEC
                 || elf->e_type == ET_DYN));
         if (flags > flag)
             flag = flags;

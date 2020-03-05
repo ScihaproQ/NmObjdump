@@ -21,7 +21,7 @@ all:		nm objdump
 
 nm:		$(NAMENM)
 
-objdump:	$(NAMEOBJ);
+objdump:	$(NAMEOBJ)
 
 $(NAMENM):	$(OBJSNM)
 		$(CC) -o $(NAMENM) $(SRCNM)

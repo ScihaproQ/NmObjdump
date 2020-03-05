@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2020
-** 
+**
 ** File description:
 ** TODO: Add description
 */

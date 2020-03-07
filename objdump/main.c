@@ -35,13 +35,15 @@ int print_files(void *data, char *arg)
 int default_file()
 {
     int fd = 0;
-    struct stat s;
     int filesize = 0;
     void *data = NULL;
 
     fd = open("a.out", O_RDONLY);
     if (fd == -1) {
-        fprintf(stderr, "objdump: '%s': No such file\n", "a.out");
+        if (errno == EACCES)
+            fprintf(stderr, "objdump: '%s': Permission denied\n", "a.out");
+        else
+            fprintf(stderr, "objdump: '%s': No such file\n", "a.out");
         return (84);
     }
     filesize = lseek(fd, 0, SEEK_END);
@@ -69,6 +71,7 @@ int get_file(int fd, char *arg)
     }
     if ((status = print_files(data, arg) == 84))
         return status;
+    return 0;
 }
 
 int main(int ac, char **av)

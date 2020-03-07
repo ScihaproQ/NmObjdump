@@ -1,19 +1,19 @@
 NAMENM	=	my_nm
 NAMEOBJ	=	my_objdump
 
-SRCOBJ	=	./objdump/main.c \
+SRCSOBJ	=	./objdump/main.c \
         ./objdump/dumps_32.c \
         ./objdump/dumps_64.c \
         ./objdump/prints.c \
         ./objdump/read_at_position.c \
         ./objdump/machines.c \
 
-SRCNM	=	./nm/main.c \
+SRCSNM	=	./nm/main.c \
 
 OBJSNM	=	$(SRCSNM:.c=.o)
 OBJSOBJ	=	$(SRCSOBJ:.c=.o)
 
-CFLAGS	=	-W -Wall -Wextra -Werror -I ./objdump
+CFLAGS	=	-W -Wall -Wextra -I ./objdump -I ./nm
 
 CC	=	gcc
 
@@ -24,9 +24,9 @@ nm:		$(NAMENM)
 objdump:	$(NAMEOBJ)
 
 $(NAMENM):	$(OBJSNM)
-		$(CC) -o $(NAMENM) $(SRCNM)
+		$(CC) -o $(NAMENM) $(SRCSNM)
 $(NAMEOBJ):	$(OBJSOBJ)
-		$(CC) -o $(NAMEOBJ) $(SRCOBJ)
+		$(CC) -o $(NAMEOBJ) $(SRCSOBJ)
 
 clean:
 	rm -f $(OBJSNM)
@@ -37,5 +37,3 @@ fclean: 	clean
 	rm -f $(NAMEOBJ)
 
 re: fclean all
-
-.PHONY: all clean fclean re

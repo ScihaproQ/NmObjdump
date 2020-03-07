@@ -8,7 +8,7 @@ SRCOBJ	=	./objdump/main.c \
         ./objdump/read_at_position.c \
         ./objdump/machines.c \
 
-SRCNM	=	./nm/main.c
+SRCNM	=	./nm/main.c \
 
 OBJSNM	=	$(SRCSNM:.c=.o)
 OBJSOBJ	=	$(SRCSOBJ:.c=.o)
@@ -35,5 +35,7 @@ clean:
 fclean: 	clean
 	rm -f $(NAMENM)
 	rm -f $(NAMEOBJ)
+
+re: fclean all
 
 .PHONY: all clean fclean re

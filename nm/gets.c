@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2020
-** 
+** oui
 ** File description:
 ** TODO: Add description
 */
@@ -16,26 +16,23 @@ char *get_str(void *data, Elf64_Shdr *strtab)
     return str;
 }
 
-void print_values(const size_t *addresses, int idx, char *str,
-                  Elf64_Shdr *sym)
+void print_values(const size_t *addresse, int idx, char *str, Elf64_Shdr *sym)
 {
     char c = 0;
 
     for (int k = 0; k < idx; ++k) {
-        if (((Elf64_Sym *) addresses[k])->st_info != 4) {
-            if (((Elf64_Sym *) addresses[k])->st_value)
-                printf("%.16lx ", ((Elf64_Sym *) addresses[k])->st_value);
+        if (((Elf64_Sym *) addresse[k])->st_info != 4) {
+            if (((Elf64_Sym *) addresse[k])->st_value)
+                printf("%.16lx ", ((Elf64_Sym *) addresse[k])->st_value);
             else
                 printf("%16s ", " ");
-            c = get_flags((Elf64_Sym *) addresses[k], sym);
-            printf("%c %s\n", c,
-                   &str[((Elf64_Sym *) addresses[k])->st_name]);
+            c = get_flags((Elf64_Sym *) addresse[k], sym);
+            printf("%c %s\n", c, &str[((Elf64_Sym *) addresse[k])->st_name]);
         }
     }
 }
 
-int get_sections(void *data, Elf64_Ehdr *elf, Elf64_Shdr *shdr,
-                 char *filename)
+int get_sections(void *data, Elf64_Ehdr *elf, Elf64_Shdr *shdr, char *name)
 {
     char *tab = NULL;
     Elf64_Shdr *strtab = NULL;
@@ -50,25 +47,22 @@ int get_sections(void *data, Elf64_Ehdr *elf, Elf64_Shdr *shdr,
         }
     }
     if (i == elf->e_shnum) {
-        fprintf(stderr, "nm: %s: no symbols\n", filename);
+        fprintf(stderr, "nm: %s: no symbols\n", name);
         return 84;
     }
     return (0);
 }
 
-void get_symbols(Elf64_Shdr *sec, void *data, Elf64_Shdr *strtab,
-                 Elf64_Shdr *shdr)
+void get_symbols(Elf64_Shdr *sec, void *data, Elf64_Shdr *stab, Elf64_Shdr *sh)
 {
     size_t i = 0;
     size_t idx = 0;
     Elf64_Sym *symtab = (Elf64_Sym *) ((char *) data + sec->sh_offset);
-    char *str = get_str(data, strtab);
-    for (; i < sec->sh_size / sec->sh_entsize; i++) {
-        if (symtab[i].st_info != 4) {
+    char *str = get_str(data, stab);
+    for (; i < sec->sh_size / sec->sh_entsize; i++)
+        if (symtab[i].st_info != 4)
             if (!strcmp(&str[symtab[i].st_name], ""))
                 continue;
-        }
-    }
     size_t addresses[i];
     for (size_t j = 0; j < sec->sh_size / sec->sh_entsize; j++) {
         if (symtab[j].st_info != 4) {
@@ -78,8 +72,8 @@ void get_symbols(Elf64_Shdr *sec, void *data, Elf64_Shdr *strtab,
             idx++;
         }
     }
-    bubbleSort(addresses, idx, str);
-    print_values(addresses, idx, str, shdr);
+    bubble_sort(addresses, idx, str);
+    print_values(addresses, idx, str, sh);
 }
 
 Elf64_Shdr *get_strtab(Elf64_Ehdr *elf, Elf64_Shdr *shdr, char *tab)

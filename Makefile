@@ -1,3 +1,10 @@
+##
+## EPITECH PROJECT, 2018
+## Makefile
+## File description:
+## main Makefile
+##
+
 NAMENM	=	my_nm
 NAMEOBJ	=	my_objdump
 

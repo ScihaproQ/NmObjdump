@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2020
-** 
+** nm.h
 ** File description:
 ** TODO: Add description
 */
@@ -32,13 +32,11 @@ typedef struct {
 
 char get_flags(Elf64_Sym *symbol, Elf64_Shdr *shdr);
 
-void bubbleSort(size_t *addresses, int n, char *str);
+void bubble_sort(size_t *, int, char *);
 
-Elf64_Shdr *get_strtab(Elf64_Ehdr *elf, Elf64_Shdr *shdr, char *tab);
+Elf64_Shdr *get_strtab(Elf64_Ehdr *, Elf64_Shdr *, char *);
 
-void get_symbols(Elf64_Shdr *sec, void *data, Elf64_Shdr *strtab,
-                 Elf64_Shdr *shdr);
+void get_symbols(Elf64_Shdr *, void *, Elf64_Shdr *, Elf64_Shdr *);
 
-int get_sections(void *data, Elf64_Ehdr *elf, Elf64_Shdr *shdr,
-                 char *filename);
+int get_sections(void *, Elf64_Ehdr *, Elf64_Shdr *, char *);
 #endif //PSU_NMOBJDUMP_2019_NM_H

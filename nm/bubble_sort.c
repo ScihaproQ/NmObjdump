@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2020
-** 
+** oui
 ** File description:
 ** TODO: Add description
 */
@@ -23,7 +23,7 @@ void swap(size_t *xp, size_t *yp)
     *yp = temp;
 }
 
-void bubbleSort(size_t *addresses, int n, char *str)
+void bubble_sort(size_t *addresses, int n, char *str)
 {
     Elf64_Sym *a;
     Elf64_Sym *b;

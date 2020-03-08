@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2020
-** 
+** main.c from nm
 ** File description:
 ** TODO: Add description
 */
@@ -38,7 +38,7 @@ int get_file(int fd, char *arg)
     filesize = lseek(fd, 0, SEEK_END);
     data = mmap(NULL, filesize, PROT_READ, MAP_SHARED, fd, 0);
     if (!check_file(data)) {
-        fprintf(stderr, "nm: '%s': file format not recognized\n",
+        fprintf(stderr, "nm: %s: file format not recognized\n",
                 arg);
         return 84;
     }
@@ -47,7 +47,7 @@ int get_file(int fd, char *arg)
     return 0;
 }
 
-int default_file()
+int default_file(void)
 {
     int fd = 0;
     int status = 0;

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2020
-** 
+** oui
 ** File description:
 ** TODO: Add description
 */
@@ -32,7 +32,7 @@ int print_files(void *data, char *arg)
     return 0;
 }
 
-int default_file()
+int default_file(void)
 {
     int fd = 0;
     int filesize = 0;

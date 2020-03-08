@@ -9,6 +9,9 @@ SRCSOBJ	=	./objdump/main.c \
         ./objdump/machines.c \
 
 SRCSNM	=	./nm/main.c \
+        ./nm/flag.c \
+        ./nm/gets.c \
+        ./nm/bubble_sort.c \
 
 OBJSNM	=	$(SRCSNM:.c=.o)
 OBJSOBJ	=	$(SRCSOBJ:.c=.o)

@@ -88,10 +88,10 @@ int main(int ac, char **av)
                 fprintf(stderr, "objdump: '%s': Permission denied\n", av[i]);
             else
                 fprintf(stderr, "objdump: '%s': No such file\n", av[i]);
-            return (84);
+            status = 84;
+            continue;
         }
-        if ((status = get_file(fd, av[i])) == 84)
-            return status;
+        status = get_file(fd, av[i]);
     }
-    return 0;
+    return status;
 }

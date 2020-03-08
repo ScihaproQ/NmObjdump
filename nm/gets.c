@@ -22,11 +22,11 @@ void print_values(const size_t *addresse, int idx, char *str, Elf64_Shdr *sym)
 
     for (int k = 0; k < idx; ++k) {
         if (((Elf64_Sym *) addresse[k])->st_info != 4) {
-            if (((Elf64_Sym *) addresse[k])->st_value)
-                printf("%.16lx ", ((Elf64_Sym *) addresse[k])->st_value);
-            else
-                printf("%16s ", " ");
             c = get_flags((Elf64_Sym *) addresse[k], sym);
+            if (((Elf64_Sym *) addresse[k])->st_value == 0 && (c == 'v' || c == 'w' || c == 'U'))
+                printf("%16s ", " ");
+            else
+                printf("%.16lx ", ((Elf64_Sym *) addresse[k])->st_value);
             printf("%c %s\n", c, &str[((Elf64_Sym *) addresse[k])->st_name]);
         }
     }
@@ -41,7 +41,7 @@ int get_sections(void *data, Elf64_Ehdr *elf, Elf64_Shdr *shdr, char *name)
     tab = (char *) (data + shdr[elf->e_shstrndx].sh_offset);
     strtab = get_strtab(elf, shdr, tab);
     for (; i < elf->e_shnum; i++) {
-        if (shdr[i].sh_size > 0 && !strcmp(&tab[shdr[i].sh_name], ".symtab")){
+        if (shdr[i].sh_size > 0 && !strcmp(&tab[shdr[i].sh_name], ".symtab")) {
             get_symbols(&shdr[i], data, strtab, shdr);
             break;
         }
@@ -79,7 +79,7 @@ void get_symbols(Elf64_Shdr *sec, void *data, Elf64_Shdr *stab, Elf64_Shdr *sh)
 Elf64_Shdr *get_strtab(Elf64_Ehdr *elf, Elf64_Shdr *shdr, char *tab)
 {
     for (int i = 1; i < elf->e_shnum; i++) {
-        if (shdr[i].sh_size > 0 && !strcmp(&tab[shdr[i].sh_name], ".strtab")){
+        if (shdr[i].sh_size > 0 && !strcmp(&tab[shdr[i].sh_name], ".strtab")) {
             return (Elf64_Shdr *) &shdr[i];
         }
     }
